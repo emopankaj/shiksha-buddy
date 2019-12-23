@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from .models import Article
+from .page_models import Article
 from .serializers import ArticleSerializer
 
 

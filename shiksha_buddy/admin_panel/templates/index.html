@@ -269,7 +269,7 @@
 
 </div>
 
-<!-- bootrtap js files -->
+<!-- bootstrap js files -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
@@ -308,6 +308,7 @@
                 this.loading = true;
                 this.$http.get(api_url)
                     .then((response) => {
+                        debugger;
                         this.articles = response.data;
                         this.loading = false;
                     })
@@ -334,6 +335,7 @@
                 this.$http.post('/api/article/', this.newArticle)
                     .then((response) => {
                         this.loading = true;
+                        debugger;
                         this.getArticles();
                     })
                     .catch((err) => {
