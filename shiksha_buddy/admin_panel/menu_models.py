@@ -14,4 +14,4 @@ class PageMenuItem(MenuItem):
 
 
 class SubMenuItem(MenuItem):
-    menus = models.ForeignKey
+    menus = models.ForeignKey(MenuItem)
