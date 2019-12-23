@@ -7,3 +7,4 @@ pip install -r requrements.txt
 echo "Enter MySQL username: "
 read -r mysql_username
 echo "create database `shiksha_buddy`" | mysql -u $mysql_username -p
+npm i
