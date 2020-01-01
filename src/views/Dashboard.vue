@@ -415,7 +415,7 @@
               <span class="avatar-status" v-bind:class="{ 'bg-success': item.value.status == 'success',  'bg-warning': item.value.status == 'warning', 'bg-danger': item.value.status == 'danger', 'bg-secondary': item.value.status == '' }"></span>
             </div>
             <div slot="user" slot-scope="item">
-              <div>{{item.value.name}}</div>
+              <div>{{item.value.page_name}}</div>
               <div class="small text-muted">
                 <span>
                   <template v-if="item.value.new">New</template>

@@ -8,7 +8,7 @@
                 <b-row class="align-items-center">
                     <b-col cols="6" sm="4" md="2" xl class="mb-3 mb-xl-0">
                         <b-row>
-                            <b-button block variant="outline-primary">Primary</b-button>
+                            <b-button block variant="outline-primary" @click="getAllPages">Primary</b-button>
                         </b-row>
                         <b-row class="mt-3">
                             <b-button block variant="outline-primary">Add New Page</b-button>
@@ -19,13 +19,13 @@
                             <div slot="header">
                                 <strong>Add New Page</strong>
                             </div>
-                            <b-form @submit.prevent="submitForm">
+                            <b-form @submit.prevent="addEditPage">
                                 <b-form-group
                                         label="Select Page Type"
                                         label-for="pageTypeSelect"
                                         :label-cols="3"
                                 >
-                                    <b-form-select id="pageTypeSelect" v-model="form.pageType"
+                                    <b-form-select id="pageTypeSelect" v-model="page.pageType"
                                                    :plain="true"
                                                    :options="[{text: 'Text and Image Page',value: 'textImagePage'},
                                                    {text: 'Contact Page',value: 'contactPage'}]">
@@ -38,7 +38,7 @@
                                         :label-cols="3"
                                 >
                                     <b-form-input id="pageName" type="text" placeholder="Page Name"
-                                                  v-model="form.pageName"></b-form-input>
+                                                  v-model="page.page_name"></b-form-input>
                                 </b-form-group>
                                 <b-form-group
                                         description="Enter Page Title"
@@ -47,7 +47,7 @@
                                         :label-cols="3"
                                 >
                                     <b-form-input id="pageTitle" type="text" placeholder="Page Title"
-                                                  v-model="form.pageTitle"></b-form-input>
+                                                  v-model="page.title"></b-form-input>
                                 </b-form-group>
                                 <b-form-group
                                         description="Enter Page Heading"
@@ -56,7 +56,7 @@
                                         :label-cols="3"
                                 >
                                     <b-form-input id="pageHeading" type="text"
-                                                  placeholder="Page Heading" v-model="form.pageHeading"></b-form-input>
+                                                  placeholder="Page Heading" v-model="page.heading"></b-form-input>
                                 </b-form-group>
                                 <template v-if="false">
                                     <b-form-group
@@ -66,7 +66,7 @@
                                             :label-cols="3"
                                     >
                                         <b-form-file id="pageImage" :plain="true"
-                                                     v-model="form.pageImage"></b-form-file>
+                                                     v-model="page.pageImage"></b-form-file>
                                     </b-form-group>
                                     <b-form-group
                                             label="Page Content"
@@ -75,7 +75,7 @@
                                     >
                                         <b-form-textarea id="pageContent" :rows="9"
                                                          placeholder="Content to be shown on the Page"
-                                                         v-model="form.pageContent"></b-form-textarea>
+                                                         v-model="page.content"></b-form-textarea>
                                     </b-form-group>
                                 </template>
                                 <template v-else>
@@ -86,7 +86,7 @@
                                             :label-cols="3"
                                     >
                                         <b-form-input id="latitude" type="text"
-                                                      placeholder="Latitude" v-model="form.latitude"></b-form-input>
+                                                      placeholder="Latitude" v-model="page.latitude"></b-form-input>
                                     </b-form-group>
                                     <b-form-group
                                             description="Enter Longitude for the location"
@@ -95,7 +95,7 @@
                                             :label-cols="3"
                                     >
                                         <b-form-input id="longitude" type="text"
-                                                      placeholder="Longitude" v-model="form.longitude"></b-form-input>
+                                                      placeholder="Longitude" v-model="page.longitude"></b-form-input>
                                     </b-form-group>
                                     <b-form-group
                                             description="Enter Phone Number"
@@ -105,7 +105,7 @@
                                     >
                                         <b-form-input id="phoneNumber" type="text"
                                                       placeholder="Phone Number"
-                                                      v-model="form.phoneNumber"></b-form-input>
+                                                      v-model="page.phone"></b-form-input>
                                     </b-form-group>
                                     <b-form-group
                                             description="Please enter your email"
@@ -114,7 +114,7 @@
                                             :label-cols="3"
                                     >
                                         <b-form-input id="emailAddress" type="email" placeholder="Enter your email"
-                                                      autocomplete="email" v-model="form.emailAddress"/>
+                                                      autocomplete="email" v-model="page.email"/>
                                     </b-form-group>
                                     <b-form-group
                                             description="Enter Facebook Page link"
@@ -123,7 +123,7 @@
                                             :label-cols="3"
                                     >
                                         <b-form-input id="facebookPageLink" type="text"
-                                                      placeholder="Facebook Page Link" v-model="form.facebookPageLink"/>
+                                                      placeholder="Facebook Page Link" v-model="page.facebook_link"/>
                                     </b-form-group>
                                     <b-form-group
                                             description="Enter Twitter Link"
@@ -132,7 +132,7 @@
                                             :label-cols="3"
                                     >
                                         <b-form-input id="twitterLink" type="text"
-                                                      placeholder="Twitter Link" v-model="form.twitterLink"/>
+                                                      placeholder="Twitter Link" v-model="page.twitter_link"/>
                                     </b-form-group>
                                     <b-form-group
                                             label="Address"
@@ -141,7 +141,7 @@
                                     >
                                         <b-form-textarea id="postalAddress" :rows="9"
                                                          placeholder="Address to be shown on Contact page"
-                                                         v-model="form.postalAddress"/>
+                                                         v-model="page.address"/>
                                     </b-form-group>
                                 </template>
 
@@ -168,27 +168,34 @@
         name: 'edit-pages',
         data() {
             return {
-                form:
+                page:
                     {
                         id: '',
+                        // FIXME: remove this
+                        'site_id': 'dummy',
                         pageType: 'textImagePage',
-                        pageName: '',
-                        pageTitle: '',
-                        pageHeading: '',
-                        pageContent: '',
+                        page_name: '',
+                        title: '',
+                        heading: '',
+                        content: '',
                         latitude: '',
                         longitude: '',
-                        phoneNumber: '',
-                        emailAddress: '',
-                        facebookPageLink: '',
-                        twitterLink: '',
-                        postalAddress: ''
+                        phone: '',
+                        email: '',
+                        facebook_link: '',
+                        twitter_link: '',
+                        address: ''
                     }
             }
         },
         methods: {
-            submitForm: function () {
-                axios.post('/api/page', this.form)
+            addEditPage: function () {
+                axios.post('/api/page/', this.page)
+                    .then(response => console.log(response))
+                    .catch(error => console.log(error))
+            },
+            getAllPages: function () {
+                axios.get('/api/page/')
                     .then(response => console.log(response))
                     .catch(error => console.log(error))
             }

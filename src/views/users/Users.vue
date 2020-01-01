@@ -9,7 +9,7 @@
             <strong>{{data.item.id}}</strong>
           </template>
           <template slot="name" slot-scope="data">
-            <strong>{{data.item.name}}</strong>
+            <strong>{{data.item.page_name}}</strong>
           </template>
           <template slot="status" slot-scope="data">
             <b-badge :variant="getBadge(data.item.status)">{{data.item.status}}</b-badge>
