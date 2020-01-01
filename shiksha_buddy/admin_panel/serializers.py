@@ -1,16 +1,27 @@
 from rest_framework import serializers
 
-from admin_panel.page_models import GenericPage
-from .page_models import Article
+from admin_panel.page_models import GenericPage, TextImagePage, ContactPage
 
 
-class ArticleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Article
-        fields = '__all__'
+# class ArticleSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Article
+#         fields = '__all__'
 
 
-class PageSerializer(serializers.ModelSerializer):
+class GenericPageSerializer(serializers.ModelSerializer):
     class Meta:
         model = GenericPage
+        fields = "__all__"
+
+
+class TextImagePageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TextImagePage
+        fields = "__all__"
+
+
+class ContactPageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactPage
         fields = "__all__"
