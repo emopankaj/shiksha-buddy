@@ -12,7 +12,7 @@ import router from './router'
 // todo
 // cssVars()
 
-Vue.use(BootstrapVue)
+Vue.use(BootstrapVue);
 
 /* eslint-disable no-new */
 new Vue({

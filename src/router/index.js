@@ -58,283 +58,304 @@ const Register = () => import('@/views/pages/Register')
 const Users = () => import('@/views/users/Users')
 const User = () => import('@/views/users/User')
 
+const EditPages = () => import('@/views/admin-panel/pages/EditPages')
+
 Vue.use(Router)
 
 function configRoutes() {
-  return [
-    {
-      path: '/',
-      redirect: '/dashboard',
-      name: 'Home',
-      component: DefaultContainer,
-      children: [
+    return [
         {
-          path: 'dashboard',
-          name: 'Dashboard',
-          component: Dashboard
+            path: '/',
+            redirect: '/dashboard',
+            name: 'Home',
+            component: DefaultContainer,
+            children: [
+                {
+                    path: 'dashboard',
+                    name: 'Dashboard',
+                    component: Dashboard
+                },
+                {
+                    path: 'admin-panel/pages/edit',
+                    name: 'Edit Pages',
+                    component: EditPages
+                },
+                {
+                    path: 'theme',
+                    redirect: '/theme/colors',
+                    name: 'Theme',
+                    component: {
+                        render(c) {
+                            return c('router-view')
+                        }
+                    },
+                    children: [
+                        {
+                            path: 'colors',
+                            name: 'Colors',
+                            component: Colors
+                        },
+                        {
+                            path: 'typography',
+                            name: 'Typography',
+                            component: Typography
+                        }
+                    ]
+                },
+                {
+                    path: 'charts',
+                    name: 'Charts',
+                    component: Charts
+                },
+                {
+                    path: 'widgets',
+                    name: 'Widgets',
+                    component: Widgets
+                },
+                {
+                    path: 'users',
+                    meta: {label: 'Users'},
+                    component: {
+                        render(c) {
+                            return c('router-view')
+                        }
+                    },
+                    children: [
+                        {
+                            path: '',
+                            component: Users,
+                        },
+                        {
+                            path: ':id',
+                            meta: {label: 'User Details'},
+                            name: 'User',
+                            component: User,
+                        },
+                    ]
+                },
+                {
+                    path: 'base',
+                    redirect: '/base/cards',
+                    name: 'Base',
+                    component: {
+                        render(c) {
+                            return c('router-view')
+                        }
+                    },
+                    children: [
+                        {
+                            path: 'cards',
+                            name: 'Cards',
+                            component: Cards
+                        },
+                        {
+                            path: 'forms',
+                            name: 'Forms',
+                            component: Forms
+                        },
+                        {
+                            path: 'switches',
+                            name: 'Switches',
+                            component: Switches
+                        },
+                        {
+                            path: 'tables',
+                            name: 'Tables',
+                            component: Tables
+                        },
+                        {
+                            path: 'tabs',
+                            name: 'Tabs',
+                            component: Tabs
+                        },
+                        {
+                            path: 'breadcrumbs',
+                            name: 'Breadcrumbs',
+                            component: Breadcrumbs
+                        },
+                        {
+                            path: 'carousels',
+                            name: 'Carousels',
+                            component: Carousels
+                        },
+                        {
+                            path: 'collapses',
+                            name: 'Collapses',
+                            component: Collapses
+                        },
+                        {
+                            path: 'jumbotrons',
+                            name: 'Jumbotrons',
+                            component: Jumbotrons
+                        },
+                        {
+                            path: 'list-groups',
+                            name: 'List Groups',
+                            component: ListGroups
+                        },
+                        {
+                            path: 'navs',
+                            name: 'Navs',
+                            component: Navs
+                        },
+                        {
+                            path: 'navbars',
+                            name: 'Navbars',
+                            component: Navbars
+                        },
+                        {
+                            path: 'paginations',
+                            name: 'Paginations',
+                            component: Paginations
+                        },
+                        {
+                            path: 'popovers',
+                            name: 'Popovers',
+                            component: Popovers
+                        },
+                        {
+                            path: 'progress-bars',
+                            name: 'Progress Bars',
+                            component: ProgressBars
+                        },
+                        {
+                            path: 'tooltips',
+                            name: 'Tooltips',
+                            component: Tooltips
+                        }
+                    ]
+                },
+                {
+                    path: 'buttons',
+                    redirect: '/buttons/standard-buttons',
+                    name: 'Buttons',
+                    component: {
+                        render(c) {
+                            return c('router-view')
+                        }
+                    },
+                    children: [
+                        {
+                            path: 'standard-buttons',
+                            name: 'Standard Buttons',
+                            component: StandardButtons
+                        },
+                        {
+                            path: 'button-groups',
+                            name: 'Button Groups',
+                            component: ButtonGroups
+                        },
+                        {
+                            path: 'dropdowns',
+                            name: 'Dropdowns',
+                            component: Dropdowns
+                        },
+                        {
+                            path: 'brand-buttons',
+                            name: 'Brand Buttons',
+                            component: BrandButtons
+                        }
+                    ]
+                },
+                {
+                    path: 'icons',
+                    redirect: '/icons/font-awesome',
+                    name: 'Icons',
+                    component: {
+                        render(c) {
+                            return c('router-view')
+                        }
+                    },
+                    children: [
+                        {
+                            path: 'coreui-icons',
+                            name: 'CoreUI Icons',
+                            component: CoreUIIcons
+                        },
+                        {
+                            path: 'flags',
+                            name: 'Flags',
+                            component: Flags
+                        },
+                        {
+                            path: 'font-awesome',
+                            name: 'Font Awesome',
+                            component: FontAwesome
+                        },
+                        {
+                            path: 'simple-line-icons',
+                            name: 'Simple Line Icons',
+                            component: SimpleLineIcons
+                        }
+                    ]
+                },
+                {
+                    path: 'notifications',
+                    redirect: '/notifications/alerts',
+                    name: 'Notifications',
+                    component: {
+                        render(c) {
+                            return c('router-view')
+                        }
+                    },
+                    children: [
+                        {
+                            path: 'alerts',
+                            name: 'Alerts',
+                            component: Alerts
+                        },
+                        {
+                            path: 'badges',
+                            name: 'Badges',
+                            component: Badges
+                        },
+                        {
+                            path: 'modals',
+                            name: 'Modals',
+                            component: Modals
+                        }
+                    ]
+                }
+            ]
         },
         {
-          path: 'theme',
-          redirect: '/theme/colors',
-          name: 'Theme',
-          component: {
-            render (c) { return c('router-view') }
-          },
-          children: [
-            {
-              path: 'colors',
-              name: 'Colors',
-              component: Colors
+            path: '/pages',
+            redirect: '/pages/404',
+            name: 'Pages',
+            component: {
+                render(c) {
+                    return c('router-view')
+                }
             },
-            {
-              path: 'typography',
-              name: 'Typography',
-              component: Typography
-            }
-          ]
-        },
-        {
-          path: 'charts',
-          name: 'Charts',
-          component: Charts
-        },
-        {
-          path: 'widgets',
-          name: 'Widgets',
-          component: Widgets
-        },
-        {
-          path: 'users',
-          meta: { label: 'Users'},
-          component: {
-            render (c) { return c('router-view') }
-          },
-          children: [
-            {
-              path: '',
-              component: Users,
-            },
-            {
-              path: ':id',
-              meta: { label: 'User Details'},
-              name: 'User',
-              component: User,
-            },
-          ]
-        },
-        {
-          path: 'base',
-          redirect: '/base/cards',
-          name: 'Base',
-          component: {
-            render (c) { return c('router-view') }
-          },
-          children: [
-            {
-              path: 'cards',
-              name: 'Cards',
-              component: Cards
-            },
-            {
-              path: 'forms',
-              name: 'Forms',
-              component: Forms
-            },
-            {
-              path: 'switches',
-              name: 'Switches',
-              component: Switches
-            },
-            {
-              path: 'tables',
-              name: 'Tables',
-              component: Tables
-            },
-            {
-              path: 'tabs',
-              name: 'Tabs',
-              component: Tabs
-            },
-            {
-              path: 'breadcrumbs',
-              name: 'Breadcrumbs',
-              component: Breadcrumbs
-            },
-            {
-              path: 'carousels',
-              name: 'Carousels',
-              component: Carousels
-            },
-            {
-              path: 'collapses',
-              name: 'Collapses',
-              component: Collapses
-            },
-            {
-              path: 'jumbotrons',
-              name: 'Jumbotrons',
-              component: Jumbotrons
-            },
-            {
-              path: 'list-groups',
-              name: 'List Groups',
-              component: ListGroups
-            },
-            {
-              path: 'navs',
-              name: 'Navs',
-              component: Navs
-            },
-            {
-              path: 'navbars',
-              name: 'Navbars',
-              component: Navbars
-            },
-            {
-              path: 'paginations',
-              name: 'Paginations',
-              component: Paginations
-            },
-            {
-              path: 'popovers',
-              name: 'Popovers',
-              component: Popovers
-            },
-            {
-              path: 'progress-bars',
-              name: 'Progress Bars',
-              component: ProgressBars
-            },
-            {
-              path: 'tooltips',
-              name: 'Tooltips',
-              component: Tooltips
-            }
-          ]
-        },
-        {
-          path: 'buttons',
-          redirect: '/buttons/standard-buttons',
-          name: 'Buttons',
-          component: {
-            render (c) { return c('router-view') }
-          },
-          children: [
-            {
-              path: 'standard-buttons',
-              name: 'Standard Buttons',
-              component: StandardButtons
-            },
-            {
-              path: 'button-groups',
-              name: 'Button Groups',
-              component: ButtonGroups
-            },
-            {
-              path: 'dropdowns',
-              name: 'Dropdowns',
-              component: Dropdowns
-            },
-            {
-              path: 'brand-buttons',
-              name: 'Brand Buttons',
-              component: BrandButtons
-            }
-          ]
-        },
-        {
-          path: 'icons',
-          redirect: '/icons/font-awesome',
-          name: 'Icons',
-          component: {
-            render (c) { return c('router-view') }
-          },
-          children: [
-            {
-              path: 'coreui-icons',
-              name: 'CoreUI Icons',
-              component: CoreUIIcons
-            },
-            {
-              path: 'flags',
-              name: 'Flags',
-              component: Flags
-            },
-            {
-              path: 'font-awesome',
-              name: 'Font Awesome',
-              component: FontAwesome
-            },
-            {
-              path: 'simple-line-icons',
-              name: 'Simple Line Icons',
-              component: SimpleLineIcons
-            }
-          ]
-        },
-        {
-          path: 'notifications',
-          redirect: '/notifications/alerts',
-          name: 'Notifications',
-          component: {
-            render (c) { return c('router-view') }
-          },
-          children: [
-            {
-              path: 'alerts',
-              name: 'Alerts',
-              component: Alerts
-            },
-            {
-              path: 'badges',
-              name: 'Badges',
-              component: Badges
-            },
-            {
-              path: 'modals',
-              name: 'Modals',
-              component: Modals
-            }
-          ]
+            children: [
+                {
+                    path: '404',
+                    name: 'Page404',
+                    component: Page404
+                },
+                {
+                    path: '500',
+                    name: 'Page500',
+                    component: Page500
+                },
+                {
+                    path: 'login',
+                    name: 'Login',
+                    component: Login
+                },
+                {
+                    path: 'register',
+                    name: 'Register',
+                    component: Register
+                }
+            ]
         }
-      ]
-    },
-    {
-      path: '/pages',
-      redirect: '/pages/404',
-      name: 'Pages',
-      component: {
-        render (c) { return c('router-view') }
-      },
-      children: [
-        {
-          path: '404',
-          name: 'Page404',
-          component: Page404
-        },
-        {
-          path: '500',
-          name: 'Page500',
-          component: Page500
-        },
-        {
-          path: 'login',
-          name: 'Login',
-          component: Login
-        },
-        {
-          path: 'register',
-          name: 'Register',
-          component: Register
-        }
-      ]
-    }
-  ]
+    ]
 }
 
 export default new Router({
-  mode: 'hash', // https://router.vuejs.org/api/#mode
-  linkActiveClass: 'open active',
-  scrollBehavior: () => ({ y: 0 }),
-  routes: configRoutes()
+    mode: 'hash', // https://router.vuejs.org/api/#mode
+    linkActiveClass: 'open active',
+    scrollBehavior: () => ({y: 0}),
+    routes: configRoutes()
 })

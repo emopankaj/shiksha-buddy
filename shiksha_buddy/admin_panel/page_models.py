@@ -11,6 +11,7 @@ class Article(models.Model):
 class GenericPage(models.Model):
     id = models.AutoField(primary_key=True)
     site_id = models.CharField(max_length=50)
+    page_name = models.CharField(max_length=80)
     title = models.CharField(max_length=50)
     heading = models.CharField(max_length=250)
 
@@ -28,4 +29,3 @@ class ContactPage(GenericPage):
 class TextImagePage(GenericPage):
     image = models.CharField(max_length=100)
     text = models.TextField()
-
