@@ -23,3 +23,6 @@ new Vue({
         App
     }
 });
+
+// EventBus for communication among components
+export const EventBus = new Vue();

@@ -1,8 +1,10 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 
+from admin_panel.menu_models import MenuItem
 from admin_panel.page_models import TextImagePage, ContactPage
-from admin_panel.serializers import GenericPageSerializer, TextImagePageSerializer, ContactPageSerializer
+from admin_panel.serializers import GenericPageSerializer, TextImagePageSerializer, ContactPageSerializer, \
+    MenuItemSerializer
 
 
 # class ArticleViewSet(viewsets.ModelViewSet):
@@ -30,3 +32,8 @@ class PageViewSet(viewsets.ModelViewSet):
             return ContactPageSerializer
 
         return GenericPageSerializer
+
+
+class MenuItemViewSet(viewsets.ModelViewSet):
+    queryset = MenuItem.objects.all()
+    serializer_class = MenuItemSerializer
