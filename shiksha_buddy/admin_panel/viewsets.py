@@ -18,8 +18,8 @@ class PageViewSet(viewsets.ModelViewSet):
         contact_page_queryset = ContactPage.objects.all()
         contact_page_serializer = ContactPageSerializer(contact_page_queryset, many=True)
 
-        result = {'TextImagePages': text_image_page_serializer.data,
-                  'ContactPages': contact_page_serializer.data}
+        result = {'TextImagePage': text_image_page_serializer.data,
+                  'ContactPage': contact_page_serializer.data}
         return Response(result)
 
     def get_serializer_class(self):
