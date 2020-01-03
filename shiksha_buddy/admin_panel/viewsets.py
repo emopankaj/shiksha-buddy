@@ -1,3 +1,4 @@
+from django.db.models import QuerySet
 from rest_framework import viewsets
 from rest_framework.response import Response
 
@@ -13,6 +14,7 @@ from admin_panel.serializers import GenericPageSerializer, TextImagePageSerializ
 
 
 class PageViewSet(viewsets.ModelViewSet):
+    # queryset = QuerySet().union(TextImagePage.objects.all()).union(ContactPage.objects.all())
 
     def list(self, request, *args, **kwargs):
         text_image_page_queryset = TextImagePage.objects.all()
@@ -20,18 +22,29 @@ class PageViewSet(viewsets.ModelViewSet):
         contact_page_queryset = ContactPage.objects.all()
         contact_page_serializer = ContactPageSerializer(contact_page_queryset, many=True)
 
-        result = {'TextImagePage': text_image_page_serializer.data,
-                  'ContactPage': contact_page_serializer.data}
-        return Response(result)
+        text_image_pages = list(map(lambda x: self.attach_page_type_to_result(x, TextImagePage.__name__),
+                                    text_image_page_serializer.data))
+        contact_pages = list(map(lambda x: self.attach_page_type_to_result(x, ContactPage.__name__),
+                                 contact_page_serializer.data))
+
+        return Response(text_image_pages + contact_pages)
+
+    def get_queryset(self):
+        if self.request.data['pageType'] == TextImagePage.__name__:
+            return TextImagePage.objects.all()
+
+        return ContactPage.objects.all()
 
     def get_serializer_class(self):
-        if self.action == 'create' or self.action == 'update':
-            if self.request.data['pageType'] == TextImagePage.__name__:
-                return TextImagePageSerializer
+        if self.request.data['pageType'] == TextImagePage.__name__:
+            return TextImagePageSerializer
 
-            return ContactPageSerializer
+        return ContactPageSerializer
 
-        return GenericPageSerializer
+    @staticmethod
+    def attach_page_type_to_result(result, pageType):
+        result['pageType'] = pageType
+        return result
 
 
 class MenuItemViewSet(viewsets.ModelViewSet):
