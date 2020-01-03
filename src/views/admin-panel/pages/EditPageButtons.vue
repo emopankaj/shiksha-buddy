@@ -4,16 +4,12 @@
             <div slot="header">
                 <strong>Existing Pages</strong>
             </div>
-            <template v-for="(pages, pageType) in existingPages">
-                <template v-for="page in pages">
-                    <b-row class="mt-3" :key="pageType +'_' + page.id">
-                        <b-button block variant="outline-primary"
-                                  @click="$emit('change-visibility', pageType +'_' + page.id)">
-                            {{page.page_name}}
-                        </b-button>
-                    </b-row>
-                </template>
-            </template>
+            <b-row class="mt-3" v-for="page in existingPages" :key="page.pageType +'_' + page.id">
+                <b-button block variant="outline-primary"
+                          @click="$emit('change-visibility', page.pageType +'_' + page.id)">
+                    {{page.page_name}}
+                </b-button>
+            </b-row>
             <b-row class="mt-3">
                 <b-button block variant="outline-primary"
                           @click="$emit('change-visibility', 'new_form')">
@@ -28,7 +24,7 @@
     export default {
         name: 'edit-page-buttons',
         props: {
-            existingPages: Object
+            existingPages: Array
         }
     }
 </script>

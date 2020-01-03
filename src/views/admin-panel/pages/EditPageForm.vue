@@ -168,15 +168,16 @@
                 // if id is present, it should be a page update otherwise page create
 
                 if (this.currentPage.id) {
-                    axios.put('/api/page/', this.currentPage)
-                        .then(response => console.log(response))
+                    axios.put(`/api/page/${this.currentPage.id}/`, this.currentPage)
+                    // eslint-disable-next-line no-unused-vars
+                        .then((response) => EventBus.$emit('refresh-pages'))
                         .catch(error => console.log(error))
                 } else {
                     axios.post('/api/page/', this.currentPage)
-                        .then(response => console.log(response))
+                    // eslint-disable-next-line no-unused-vars
+                        .then((response) => EventBus.$emit('refresh-pages'))
                         .catch(error => console.log(error))
                 }
-                EventBus.$emit('refresh-pages');
             }
         }
     }

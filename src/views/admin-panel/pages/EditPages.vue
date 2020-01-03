@@ -6,32 +6,30 @@
             </b-card-header>
             <b-card-body>
                 <edit-page-buttons :existing-pages="existingPages" @change-visibility="visibleForm=$event"/>
-                <edit-page-forms :existing-pages="existingPages" :visible-form="visibleForm"
-                                 @refresh-pages="refreshPages"/>
+                <edit-page-forms :existing-pages="existingPages" :visible-form="visibleForm"/>
             </b-card-body>
         </b-card>
     </div>
 </template>
 
 <script>
-    import axios from "axios";
     import {EventBus} from '@/main'
     import EditPageForms from "./EditPageForms";
     import EditPageButtons from "./EditPageButtons";
+    import PageMixin from "@/views/admin-panel/mixins/PageMixin";
 
     export default {
         components: {EditPageForms, EditPageButtons},
+        mixins: [PageMixin],
         data() {
             return {
-                existingPages: {},
+                existingPages: [],
                 visibleForm: ''
             };
         },
         methods: {
             refreshPages() {
-                axios.get('/api/page/')
-                    .then(response => this.existingPages = response.data)
-                    .catch(error => console.log(error))
+                this.getAllPages((pages) => this.existingPages = pages);
             }
         },
         mounted() {

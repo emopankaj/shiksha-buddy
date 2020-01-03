@@ -1,13 +1,9 @@
 <template>
     <b-row class="align-items-center">
         <b-col cols="6" sm="4" md="2" xl class="mb-3 mb-xl-0">
-            <template v-for="(pages, pageType) in existingPages">
-                <template v-for="currentPage in pages">
-                    <edit-page-form :key="pageType +'_' + currentPage.id"
-                                    :visible="visibleForm === pageType +'_' + currentPage.id"
-                                    :page="{...currentPage, pageType : pageType}"/>
-                </template>
-            </template>
+            <edit-page-form v-for="currentPage in existingPages" :key="currentPage.pageType +'_' + currentPage.id"
+                            :page="currentPage" :visible="visibleForm === currentPage.pageType +'_' + currentPage.id"/>
+
             <edit-page-form :visible="visibleForm === 'new_form'" :page="{
                         id: '',
                         // FIXME: remove this
@@ -37,7 +33,7 @@
         components: {EditPageForm},
         props: {
             visibleForm: String,
-            existingPages: Object,
+            existingPages: Array,
         }
     }
 </script>
