@@ -10,8 +10,8 @@
                         <draggable v-model="menuStructure" draggable=".item">
                             <b-button block variant="outline-primary" v-for="menuItem in menuStructure"
                                       :key="menuItem.id"
-                                      class="item" @click="() => editMenuItem(menuItem.id)">
-                                {{menuItem.name}}
+                                      class="item" @click="() => editMenuItem(menuItem)">
+                                {{menuItem.label}}
                             </b-button>
                             <b-button slot="footer" block variant="primary" @click="addMenu">Add</b-button>
 
@@ -22,7 +22,7 @@
                             <b-button block variant="outline-primary" v-for="menuItem in menuStructure"
                                       :key="menuItem.id"
                                       class="item">
-                                {{menuItem.name}}
+                                {{menuItem.label}}
                             </b-button>
                             <b-button slot="footer" block variant="primary">Add</b-button>
 
@@ -31,13 +31,14 @@
                 </b-row>
             </b-card-body>
         </b-card>
-        <menu-edit-form :item_id="this.current_item_id"/>
+        <menu-edit-form :menuItem="this.currentMenuItem"/>
     </div>
 </template>
 
 <script>
     import draggable from 'vuedraggable'
     import MenuEditForm from "./MenuEditForm";
+    import {EventBus} from "@/main";
 
     export default {
         name: 'menu-edit',
@@ -47,35 +48,62 @@
         },
         data() {
             return {
-                current_item_id: '',
+                currentMenuItem: {},
                 menuStructure: [{
                     id: 1,
-                    name: 'one',
+                    label: 'one',
                     type: 'intermediate_menu',
                     menus: [],
                     linked_page: {
                         id: 1,
-                        page_name: ''
+                        page_name: '',
+                        pageType: ''
                     }
                 }, {
                     id: 2,
-                    name: 'two',
+                    label: 'two',
                     type: 'page_menu',
                     menus: [],
                     linked_page: {
-                        id: 1,
-                        page_name: ''
+                        id: 2,
+                        page_name: '',
+                        pageType: ''
                     }
                 }]
             };
         },
         methods: {
             addMenu() {
-                this.menuStructure = [...this.menuStructure, {id: this.menuStructure.length, name: 'new item'}];
+                this.menuStructure = [...this.menuStructure,
+                    {
+                        id: this.menuStructure.length + 1,
+                        label: 'Click to Edit',
+                        type: 'intermediate_menu',
+                        menus: [],
+                        linked_page: {
+                            id: 1,
+                            page_name: '',
+                            pageType: ''
+                        }
+                    }];
             },
-            editMenuItem(item_id) {
-                this.current_item_id = item_id;
+            editMenuItem(currentMenuItem) {
+                this.currentMenuItem = currentMenuItem;
             }
+        },
+        created() {
+            EventBus.$on('update-menu-item', menuItem => {
+                let updatedMenuItem = menuItem;
+                let index = this.menuStructure.findIndex(menu => menu.id === updatedMenuItem.id);
+
+                let menuStructureClone = this.menuStructure.slice();
+                if (index !== -1) {
+                    menuStructureClone[index] = updatedMenuItem;
+                } else {
+                    menuStructureClone.push(updatedMenuItem);
+                }
+                this.menuStructure = menuStructureClone;
+            });
         }
     }
 </script>

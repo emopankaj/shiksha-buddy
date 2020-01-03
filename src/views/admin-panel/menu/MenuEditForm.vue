@@ -13,7 +13,7 @@
                             :label-cols="3"
                     >
                         <b-form-input id="menuItemText" type="text" placeholder="Menu Item Text"
-                                      v-model="current_menu_item.menu_label"></b-form-input>
+                                      v-model="currentMenuItem.label"></b-form-input>
                     </b-form-group>
                     <b-form-group
                             label="Linked Page"
@@ -24,12 +24,13 @@
                                 id="basicRadiosCustom"
                                 value="1"
                                 stacked>
-                            <div class="custom-control custom-radio" v-for="page in available_pages" :key="page.id">
-                                <input type="radio" :id="'pageRadio' + page.id" name="customRadio"
-                                       class="custom-control-input"
-                                       :value="page.id">
+                            <div class="custom-control custom-radio" v-for="page in availablePages"
+                                 :key="page.pageType + page.id">
+                                <input type="radio" :id="'pageRadio'+page.pageType + page.id"
+                                       class="custom-control-input" name="menuItemPage"
+                                       :value="page" v-model="currentMenuItem.linked_page">
                                 <label class="custom-control-label"
-                                       :for="'pageRadio' + page.id">{{page.page_name}}</label>
+                                       :for="'pageRadio'+ page.pageType + page.id">{{page.page_name}}</label>
                             </div>
                         </b-form-radio-group>
                     </b-form-group>
@@ -55,29 +56,25 @@
         name: 'menu-edit-form',
         mixins: [PageMixin],
         props: {
-            item_id: String
+            menuItem: Object
         },
         data() {
             return {
-                current_menu_item: {
-                    menu_item_id: this.item_id,
-                    menu_label: '',
-                    linked_page: {}
-                },
-                available_pages: [{page_id: 1, page_name: 'page 1'}, {page_id: 2, page_name: 'page 2'}]
+                availablePages: []
             };
+        },
+        computed: {
+            currentMenuItem() {
+                return this.menuItem;
+            }
         },
         methods: {
             submitForm() {
-                EventBus.$emit('update-menu-item', this.data.current_menu_item);
+                EventBus.$emit('update-menu-item', this.data.currentMenuItem);
             }
         },
         mounted() {
-            this.getAllPages((pages) => {
-                this.available_pages = Object.keys(pages).reduce(function (r, k) {
-                    return r.concat(k, pages[k]);
-                }, []);
-            });
+            this.getAllPages((pages) => this.availablePages = pages);
         }
     }
 </script>
