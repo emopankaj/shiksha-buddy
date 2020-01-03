@@ -58,9 +58,10 @@ const Register = () => import('@/views/pages/Register')
 const Users = () => import('@/views/users/Users')
 const User = () => import('@/views/users/User')
 
-const EditPages = () => import('@/views/admin-panel/pages/EditPages')
+const EditPages = () => import('@/views/admin-panel/pages/EditPages');
+const MenuEdit = () => import('@/views/admin-panel/menu/MenuEdit');
 
-Vue.use(Router)
+Vue.use(Router);
 
 function configRoutes() {
     return [
@@ -79,6 +80,11 @@ function configRoutes() {
                     path: 'admin-panel/pages/edit',
                     name: 'Edit Pages',
                     component: EditPages
+                },
+                {
+                    path: 'admin-panel/menu/edit',
+                    name: 'Edit Menu',
+                    component: MenuEdit
                 },
                 {
                     path: 'theme',

@@ -29,6 +29,11 @@ export default {
             icon: 'icon-pencil'
         },
         {
+            name: 'Edit Menu',
+            url: '/admin-panel/menu/edit',
+            icon: 'icon-pencil'
+        },
+        {
             name: 'Typography',
             url: '/theme/typography',
             icon: 'icon-pencil'
