@@ -5,7 +5,7 @@
                 <strong>Edit Menu</strong>
             </b-card-header>
             <b-card-body>
-                <nested-draggable :menu="menuStructure"/>
+                <nested-draggable :menu="menuStructure" :order="1"/>
             </b-card-body>
         </b-card>
         <menu-edit-form :menuItem="currentMenuItem"/>
@@ -75,7 +75,7 @@
                             ]
                         },
                         {
-                            id: 11,
+                            id: 12,
                             label: 'second order',
                             type: 'page_menu',
                             linked_page: {
@@ -85,7 +85,7 @@
                             }
                         },
                         {
-                            id: 12,
+                            id: 13,
                             label: 'second order',
                             type: 'page_menu',
                             menus: [],
@@ -98,17 +98,17 @@
                     ]
                 },
                     {
-                        id: 1,
+                        id: 2,
                         label: 'first order',
                         type: 'intermediate_menu',
                         menus: [
                             {
-                                id: 11,
+                                id: 21,
                                 label: 'second order',
                                 type: 'intermediate_menu',
                                 menus: [
                                     {
-                                        id: 111,
+                                        id: 211,
                                         label: 'third order',
                                         type: 'page_menu',
                                         menus: [],
@@ -121,7 +121,7 @@
                                 ]
                             },
                             {
-                                id: 12,
+                                id: 22,
                                 label: 'second order',
                                 type: 'page_menu',
                                 menus: [],
@@ -134,17 +134,17 @@
                         ]
                     },
                     {
-                        id: 1,
+                        id: 3,
                         label: 'first order',
                         type: 'intermediate_menu',
                         menus: [
                             {
-                                id: 11,
+                                id: 31,
                                 label: 'second order',
                                 type: 'intermediate_menu',
                                 menus: [
                                     {
-                                        id: 111,
+                                        id: 311,
                                         label: 'third order',
                                         type: 'page_menu',
                                         menus: [],
@@ -157,7 +157,7 @@
                                 ]
                             },
                             {
-                                id: 12,
+                                id: 312,
                                 label: 'second order',
                                 type: 'page_menu',
                                 menus: [],
