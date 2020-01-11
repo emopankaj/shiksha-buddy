@@ -24,6 +24,14 @@
                                 id="basicRadiosCustom"
                                 value="1"
                                 stacked>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="menuTypeRadio"
+                                       class="custom-control-input" name="menuItemPage"
+                                       value="intermediate_menu" v-model="currentMenuItem.type"
+                                       @blur="setPageMenuType">
+                                <label class="custom-control-label"
+                                       for="menuTypeRadio">This is a sub-menu</label>
+                            </div>
                             <div class="custom-control custom-radio" v-for="page in availablePages"
                                  :key="page.pageType + page.id">
                                 <input type="radio" :id="'pageRadio'+page.pageType + page.id"
@@ -50,7 +58,7 @@
 
 <script>
     import {EventBus} from '@/main';
-    import PageMixin from "../mixins/PageMixin";
+    import PageMixin from "@/views/admin-panel/mixins/PageMixin";
 
     export default {
         name: 'menu-edit-form',
@@ -60,17 +68,22 @@
         },
         data() {
             return {
+                currentMenuItem: {},
                 availablePages: []
             };
         },
-        computed: {
-            currentMenuItem() {
-                return this.menuItem;
+        watch: {
+            menuItem: function (updatedValue) {
+                this.currentMenuItem = updatedValue;
             }
         },
         methods: {
             submitForm() {
                 EventBus.$emit('update-menu-item', this.data.currentMenuItem);
+            },
+            setPageMenuType() {
+                alert('x');
+                this.currentMenuItem.type = 'page_menu';
             }
         },
         mounted() {

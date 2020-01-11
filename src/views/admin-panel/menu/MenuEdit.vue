@@ -5,71 +5,28 @@
                 <strong>Edit Menu</strong>
             </b-card-header>
             <b-card-body>
-                <b-row class="align-items-center">
-                    <b-col cols="6" sm="4" md="2" xl class="mb-3 mb-xl-0">
-                        <draggable v-model="menuStructure" draggable=".item">
-                            <b-button block variant="outline-primary" v-for="menuItem in menuStructure"
-                                      :key="menuItem.id"
-                                      class="item" @click="() => editMenuItem(menuItem)">
-                                {{menuItem.label}}
-                            </b-button>
-                            <b-button slot="footer" block variant="primary" @click="addMenu">Add</b-button>
-
-                        </draggable>
-                    </b-col>
-                    <b-col cols="6" sm="4" md="2" xl class="mb-3 mb-xl-0">
-                        <draggable v-model="menuStructure" draggable=".item">
-                            <b-button block variant="outline-primary" v-for="menuItem in menuStructure"
-                                      :key="menuItem.id"
-                                      class="item">
-                                {{menuItem.label}}
-                            </b-button>
-                            <b-button slot="footer" block variant="primary">Add</b-button>
-
-                        </draggable>
-                    </b-col>
-                </b-row>
+                <nested-draggable :menu="menuStructure"/>
             </b-card-body>
         </b-card>
-        <menu-edit-form :menuItem="this.currentMenuItem"/>
+        <menu-edit-form :menuItem="currentMenuItem"/>
     </div>
 </template>
 
 <script>
-    import draggable from 'vuedraggable'
     import MenuEditForm from "./MenuEditForm";
     import {EventBus} from "@/main";
+    import NestedDraggable from "@/views/admin-panel/infra/NestedDraggable";
 
     export default {
         name: 'menu-edit',
         components: {
+            NestedDraggable,
             MenuEditForm,
-            draggable,
         },
         data() {
             return {
                 currentMenuItem: {},
-                menuStructure: [{
-                    id: 1,
-                    label: 'one',
-                    type: 'intermediate_menu',
-                    menus: [],
-                    linked_page: {
-                        id: 1,
-                        page_name: '',
-                        pageType: ''
-                    }
-                }, {
-                    id: 2,
-                    label: 'two',
-                    type: 'page_menu',
-                    menus: [],
-                    linked_page: {
-                        id: 2,
-                        page_name: '',
-                        pageType: ''
-                    }
-                }]
+                menuStructure: []
             };
         },
         methods: {
@@ -77,33 +34,148 @@
                 this.menuStructure = [...this.menuStructure,
                     {
                         id: this.menuStructure.length + 1,
-                        label: 'Click to Edit',
+                        label: 'Change this Text',
                         type: 'intermediate_menu',
                         menus: [],
-                        linked_page: {
-                            id: 1,
-                            page_name: '',
-                            pageType: ''
-                        }
+                        linked_page: {}
                     }];
             },
-            editMenuItem(currentMenuItem) {
-                this.currentMenuItem = currentMenuItem;
-            }
-        },
-        created() {
-            EventBus.$on('update-menu-item', menuItem => {
+            updateMenuItem(menuItem) {
                 let updatedMenuItem = menuItem;
                 let index = this.menuStructure.findIndex(menu => menu.id === updatedMenuItem.id);
 
-                let menuStructureClone = this.menuStructure.slice();
                 if (index !== -1) {
-                    menuStructureClone[index] = updatedMenuItem;
+                    this.menuStructure.$set(index, updatedMenuItem);
                 } else {
-                    menuStructureClone.push(updatedMenuItem);
+                    this.menuStructure.push(updatedMenuItem);
                 }
-                this.menuStructure = menuStructureClone;
-            });
+            },
+            initMenuStructure() {
+                this.menuStructure = [{
+                    id: 1,
+                    label: 'first order',
+                    type: 'intermediate_menu',
+                    menus: [
+                        {
+                            id: 11,
+                            label: 'second order',
+                            type: 'intermediate_menu',
+                            menus: [
+                                {
+                                    id: 111,
+                                    label: 'third order',
+                                    type: 'page_menu',
+                                    menus: [],
+                                    linked_page: {
+                                        id: 2,
+                                        page_name: '',
+                                        pageType: ''
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            id: 11,
+                            label: 'second order',
+                            type: 'page_menu',
+                            linked_page: {
+                                id: 2,
+                                page_name: '',
+                                pageType: ''
+                            }
+                        },
+                        {
+                            id: 12,
+                            label: 'second order',
+                            type: 'page_menu',
+                            menus: [],
+                            linked_page: {
+                                id: 2,
+                                page_name: '',
+                                pageType: ''
+                            }
+                        }
+                    ]
+                },
+                    {
+                        id: 1,
+                        label: 'first order',
+                        type: 'intermediate_menu',
+                        menus: [
+                            {
+                                id: 11,
+                                label: 'second order',
+                                type: 'intermediate_menu',
+                                menus: [
+                                    {
+                                        id: 111,
+                                        label: 'third order',
+                                        type: 'page_menu',
+                                        menus: [],
+                                        linked_page: {
+                                            id: 2,
+                                            page_name: '',
+                                            pageType: ''
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                id: 12,
+                                label: 'second order',
+                                type: 'page_menu',
+                                menus: [],
+                                linked_page: {
+                                    id: 2,
+                                    page_name: '',
+                                    pageType: ''
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        id: 1,
+                        label: 'first order',
+                        type: 'intermediate_menu',
+                        menus: [
+                            {
+                                id: 11,
+                                label: 'second order',
+                                type: 'intermediate_menu',
+                                menus: [
+                                    {
+                                        id: 111,
+                                        label: 'third order',
+                                        type: 'page_menu',
+                                        menus: [],
+                                        linked_page: {
+                                            id: 2,
+                                            page_name: '',
+                                            pageType: ''
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                id: 12,
+                                label: 'second order',
+                                type: 'page_menu',
+                                menus: [],
+                                linked_page: {
+                                    id: 2,
+                                    page_name: '',
+                                    pageType: ''
+                                }
+                            }
+                        ]
+                    }];
+            }
+        },
+        created() {
+            EventBus.$on('add-menu-item', this.addMenu);
+            EventBus.$on('edit-menu-item', currentMenuItem => this.currentMenuItem = currentMenuItem);
+            EventBus.$on('update-menu-item', menuItem => this.updateMenuItem(menuItem));
+            this.initMenuStructure();
         }
     }
 </script>
