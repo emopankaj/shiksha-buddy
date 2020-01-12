@@ -7,19 +7,18 @@
                           class="item mt-2" @click="() => editMenuItem(menuItem)">
                     {{menuItem.label}}
                 </b-button>
-                <nested-draggable v-if="menuItem.type==='intermediate_menu'" :menu="menuItem.menus" :order="order+1"/>
+                <nested-draggable v-if="menuItem.menus" :menu="menuItem.menus" :order="order+1"/>
             </draggable>
         </b-col>
     </b-row>
     <draggable v-else-if="order===2" v-model="menuStructure" :group="{name:'g1'}">
-        <template v-for="menuItem in menuStructure">
-            <b-button :key="'second_order_' + menuItem.id" block variant="warning"
+        <div v-for="menuItem in menuStructure" :key="'second_order_' + menuItem.id">
+            <b-button block variant="warning"
                       class="item mt-2 ml-4 w-fill-available" @click="() => editMenuItem(menuItem)">
                 {{menuItem.label}}
             </b-button>
-            <nested-draggable v-if="menuItem.type==='intermediate_menu'" :menu="menuItem.menus" :order="order+1"
-                              :key="'second_order_nesting_' + menuItem.id"/>
-        </template>
+            <nested-draggable v-if="menuItem.menus" :menu="menuItem.menus" :order="order+1"/>
+        </div>
     </draggable>
     <draggable v-else v-model="menuStructure" :group="{name:'g1'}">
         <b-button v-for="menuItem in menuStructure"
